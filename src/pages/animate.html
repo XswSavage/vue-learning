@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用animate提供的CSS动画</title>
+  <script src="../../static/vue.js"></script>
+  <link rel="stylesheet" href="../../static/animate.css"/>
+  <style>
+    /*当未显示或者离开之后此属性为0*/
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+
+    /*opacity恢复到默认值的状态,通过多久恢复*/
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 3s;
+    }
+  </style>
+</head>
+<body>
+
+<div id="ctx">
+  <!--  appear解决的是页面加载的时候没有动画的问题
+    这里可以结合使用keyframe动画和transition动画
+    但是animate的动画时长是1s,transition的时长是3s,我们可以通过type来决定动画时长以哪个为准(e.g   type="transition")
+    也可以通过:duration属性控制动画时长
+    :duration="{enter:30000,leave:20000}"
+    :duration="10000"
+  -->
+  <transition
+    name="fade"
+    :duration="{enter:30000,leave:20000}"
+    appear
+    enter-active-class="animated swing fade-enter-active"
+    leave-active-class="animated bounce fade-leave-active"
+    appear-active-class="animated swing"
+  >
+    <div v-show="show">控制过渡动画</div>
+  </transition>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },
+    methods: {
+      onHandle: function () {
+        this.show = !this.show
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>非父子组件传值(可以通过总线解决)</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <Item name="lisa"></Item>
+  <Item name="tony"></Item>
+</div>
+<script>
+  Vue.prototype.bus = new Vue();
+  Vue.component('Item', {
+    props: {
+      name: String
+    },
+    template: '<div @click=\'answer\'>Hi {{currentName}}</div>',
+    data: function () {
+      return {
+        currentName: this.name
+      }
+    },
+    methods: {
+      answer: function () {
+        this.currentName = this.name;
+        this.bus.$emit('ok', this.currentName)
+      }
+    },
+    mounted: function(){
+      let _this = this
+      this.bus.$on('ok', (name) => {
+        _this.currentName = name
+      })
+    }
+  })
+  let vm = new Vue({
+    el:"#ctx",
+  });
+</script>
+</body>
+</html>

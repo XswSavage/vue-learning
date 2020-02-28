@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作用域插槽</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <Item>
+<!--    固定写法,必须要加上<template slot-scope ="自定义"></template>-->
+    <template slot-scope="prop">
+        <li>{{prop.i}}</li>
+    </template>
+  </Item>
+</div>
+<script>
+  Vue.component('Item',{
+    template:
+      `
+        <div>
+          <ul>
+            <slot v-for="i of list" :i="i"></slot>
+          </ul>
+        </div>
+
+      `,
+     data:function () {
+       return{
+         list:[1,2,3,4,5]
+       }
+     }
+  });
+  let vm = new Vue({
+    el: '#ctx'
+  })
+</script>
+</body>
+</html>

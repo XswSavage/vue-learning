@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多元素过渡动画</title>
+  <script src="../../static/vue.js"></script>
+  <style>
+    /*当未显示或者离开之后此属性为0*/
+    .v-enter,.v-leave-to{
+      opacity: 0;
+    }
+    /*opacity恢复到默认值的状态,通过多久恢复*/
+    .v-enter-active,.v-leave-active{
+      transition: opacity 2s;
+    }
+
+  </style>
+</head>
+<body>
+<div id="ctx">
+<!--  可以给动画加上mode属性, in-out或者out-in-->
+  <transition mode="out-in">
+    <!-- 给元素加上一个key属性,防止dom结构复用导致动画效果失效 -->
+    <div v-if="show" key="Hi">Hello Vue</div>
+    <div v-else="show" key="bye">Bye Bye</div>
+  </transition>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },
+    methods: {
+      onHandle: function () {
+        this.show = !this.show
+      }
+    }
+  })
+</script>
+</body>
+</html>

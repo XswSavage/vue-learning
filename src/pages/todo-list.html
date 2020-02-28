@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TODO</title>
+  <script src="../../static/vue.js"></script>
+  <style type="text/css">
+    body {
+      margin: 0 auto;
+      font-size: 12px;
+      font-family: "Microsoft YaHei UI";
+    }
+
+    div {
+      border-radius: 5px;
+    }
+
+    ul li {
+      width: 30rem;
+      height: 2rem;
+      line-height: 2rem;
+      padding-left: 1rem;
+      list-style: none;
+    }
+
+    #input {
+      padding: 2rem 0 0 3rem;
+      margin-top: 0.5rem;
+      height: 5rem;
+    }
+
+    #todo-list {
+      margin-top: 2rem;
+    }
+
+    #todo-list span {
+      font-size: 16px;
+    }
+
+    #todo-list ul li {
+      margin-top: 0.6rem;
+      background-color: #D2691E;
+    }
+
+    #end-list {
+      margin-top: 2rem;
+
+    }
+
+    #end-list span {
+      font-size: 16px;
+    }
+
+    .box {
+      border: 1px solid #CCC;
+    }
+
+    #end-list ul li {
+      margin-top: 0.6rem;
+      background-color: #42b983;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="input" class="box">
+    <div>
+      <input size="30rem" style="height: 1.5rem;" type="text" v-model="inputValue"/>
+      <button style="border-radius: 4px;height: 2.5rem;width: 6rem;border:1px solid blueviolet;background-color: blueviolet"
+              v-on:click="todo">添加</button>
+    </div>
+  </div>
+  <div id="todo-list" class="box">
+    <span>TODO</span>
+    <div>
+      <ul>
+<!--        <li v-for="i in todoList" v-on:click="submit(i)">-->
+<!--          {{i}}-->
+<!--        </li>-->
+<!--        :index 相当于v-bind:index, 所以v-bind可以省略-->
+        <todo-item :todocontent="i" :index="idx" v-for="(i, idx) in todoList" @delete="submit(idx)"></todo-item>
+      </ul>
+    </div>
+
+  </div>
+  <div id="end-list" class="box">
+    <span>处理完毕</span>
+    <div>
+      <ul>
+        <li v-for="i in endList">
+          {{i}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  // 方法一
+  // Vue.component("TodoItem",{
+  //   props:['todocontent'],
+  //   template: "<li>{{todocontent}}</li>"
+  // });
+  // 方法二
+  let TodoItem = {
+    props:['todocontent'],
+    template: "<li @click='deleteOnHandle'>{{todocontent}}</li>",
+    methods:{
+      deleteOnHandle:function () {
+        this.$emit("delete"); // 往父组件传递事件
+      }
+    }
+  };
+  let app = new Vue({
+    el: '#app',
+    data: {
+      inputValue:'',
+      todoList: [], // 正在处理的数据集
+      endList: [] // 处理完的数据集
+    },
+    components:{
+      TodoItem:TodoItem
+    },
+    methods:{
+      // TODO
+      todo:function(){
+        let input = this.inputValue;
+        console.log(input);
+        if(!input){
+          return;
+        }
+        this.todoList.push(input);
+        this.inputValue ='';
+      },
+      submit:function(idx){
+        this.endList.push(this.todoList[idx]);
+        this.todoList.splice(idx,1);
+      }
+    }
+
+  })
+  // init
+  app.$data.todoList.push('今天天气真好')
+  app.$data.todoList.push('一点月光窥人')
+  app.$data.endList.push('剪不断, 理还乱')
+</script>
+</body>
+</html>

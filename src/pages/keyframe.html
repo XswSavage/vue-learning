@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用keyframe的方式处理CSS动画</title>
+  <script src="../../static/vue.js"></script>
+  <style>
+    @keyframes bounce-in {
+      0%{
+        transform: scale(0);
+      }
+      50%{
+        transform: scale(1.5);
+      }
+      100%{
+        transform: scale(1);
+      }
+    }
+    .active{
+      animation: bounce-in 3s;
+      transform-origin: left center;
+    }
+    .leave{
+      animation: bounce-in 3s reverse;
+      transform-origin: left center;
+    }
+  </style>
+</head>
+<body>
+
+<div id="ctx">
+  <transition enter-active-class="active"  leave-active-class="leave">
+    <div v-show="show">控制过渡动画</div>
+  </transition>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },
+    methods: {
+      onHandle: function () {
+        this.show = !this.show
+      }
+    }
+  })
+</script>
+</body>
+</html>

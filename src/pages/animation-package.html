@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>动画封装</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <animation :show="show">
+    <div>Hello Vue</div>
+  </animation>
+  <animation :show="show">
+      <H2>Hello World</H2>
+  </animation>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+
+  Vue.component('animation',{
+    props:['show'],
+    template:
+      `
+        <transition @before-enter="beforeHandle"
+        @enter="enterHandle"
+        @after-enter="afterHandle"
+        >
+        <slot v-if="show"></slot>
+        </transition>
+      `,methods: {
+      beforeHandle: function (el) {
+        el.style.color='red';
+      },
+      enterHandle: function (el, done) {
+        setTimeout(()=>{
+          el.style.color="orange";
+        },3000);
+
+        setTimeout(()=>{
+          done(); // 执行完毕之后会触发after的事件
+        },5000);
+      },
+      afterHandle: function (el) {
+        el.style.color="black";
+      }
+    }
+  });
+
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },methods:{
+      onHandle: function () {
+        this.show = !this.show
+      }
+    }
+
+  })
+</script>
+</body>
+</html>

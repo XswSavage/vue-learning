@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单元素相关的细节</title>
+    <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+    <table>
+        <tbody>
+          <template v-for="i in 3">
+<!--            最好是用 is来处理,否则可能会出现不符合预期的dom结构,例如直接使用<Row></Row>-->
+<!--            可能会导致标签出现在table解析
+                诸如 select中的option
+                ul/ol中的li标签等
+-->
+            <tr is="Row"></tr>
+          </template>
+        </tbody>
+    </table>
+
+</div>
+
+  <script>
+    Vue.component("Row",{
+      data:()=>{
+        return{
+          content:'内容'
+        }
+      },
+      template: "<tr><td>{{content}}</td></tr>"
+    });
+    let vm = new Vue({
+      el:"#ctx"
+    });
+  </script>
+</body>
+</html>

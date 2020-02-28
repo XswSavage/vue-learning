@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>velocity动画</title>
+  <script src="../../static/vue.js"></script>
+  <script src="../../static/velocity.min.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <!--  enter对应的leave事件-->
+  <transition @before-enter="beforeHandle"
+    @enter="enterHandle"
+    @after-enter="afterHandle"
+  >
+    <div v-show="show" >控制过渡动画</div>
+  </transition>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },
+    methods: {
+      onHandle: function () {
+        this.show = !this.show
+      },
+      beforeHandle:function (el) {
+        // el.style.color='red';
+        el.style.opacity= 0;
+      },
+      enterHandle:function (el, done) {
+        Velocity(el,{
+          opacity:1
+        },{
+          duration:2000,
+          complete:done
+        });
+        // setTimeout(()=>{
+        //   el.style.color="orange";
+        // },3000);
+        //
+        // setTimeout(()=>{
+        //   done(); // 执行完毕之后会触发after的事件
+        // },5000);
+      },
+      afterHandle:function (el) {
+        // el.style.color="black";
+        console.log("end");
+      }
+    }
+  })
+</script>
+</body>
+</html>

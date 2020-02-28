@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue中的动画效果</title>
+  <script src="../../static/vue.js"></script>
+  <style>
+    /*当未显示或者离开之后此属性为0*/
+      .fade-enter,.fade-leave-to{
+        opacity: 0;
+      }
+      /*opacity恢复到默认值的状态,通过多久恢复*/
+    .fade-enter-active,.fade-leave-active{
+      transition: opacity 3s;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="ctx">
+<!--  也可以不指定name,那么此时可以使用默认值,通过v-*的方式即可 .v-enter-->
+<!--  另外可以使用transition-group实现列表动画,e.g. 给一组div包裹此标签,那么相当于是给每个div包含在了一个transition中 -> <transition><div></div></transition>-->
+  <transition name="fade">
+      <div v-show="show" >控制过渡动画</div>
+  </transition>
+  <button @click="onHandle">改 变</button>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      show: true
+    },
+    methods: {
+      onHandle: function () {
+        this.show = !this.show
+      }
+    }
+  })
+</script>
+</body>
+</html>

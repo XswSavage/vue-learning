@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue中如何操作DOM结构</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+<!--  ref这里代表的就是div这个DOM结构-->
+  <div ref="DIV" @click="handle">你好啊</div>
+
+  <br/>
+  <br/>
+<!--  ref在这里代表的是子组件本身-->
+  <Counter ref="a" @add="sum"></Counter>
+  <Counter ref="b" @add="sum"></Counter>
+  <span>{{total}}</span>
+  <hr/>
+<!--  父组件向子组件传值通过属性的方式传值-->
+  <Total :total="total"></Total>
+
+</div>
+<script>
+  let Total = {
+    template:"<div>{{total}}</div>",
+    props:{
+      // 要求接受到的类型是字符串或者数字可以这样限定
+      // 组件参数的校验
+      // total:[Number,String]
+      // 或者可以做限定
+      total:{
+        type:Number,
+        required: false, //required=true后 这样做以后将:total去掉看看
+        default:100, // 可以加默认值
+        validator:(val)=> {
+          return val<10; //超过10控制台会报错
+        }
+      }
+    },
+
+    data:()=>{
+      return {
+      }
+    },
+    methods:{
+    }
+  }
+  Vue.component('Counter', {
+    template: '<div @click=\'changeNumber\'>{{number}}</div>',
+    data: () => {
+      return {
+        number: 0
+      }
+    },
+    methods: {
+      changeNumber: function () {
+        this.number++
+        this.$emit('add') // 往父组件传递信息
+      }
+    }
+  })
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      total: 0
+    },
+    components:{
+      Total:Total
+    },
+    methods: {
+      handle: function () {
+        alert(this.$refs.DIV.innerHTML)
+      },
+      sum: function () {
+        this.total = this.$refs.a.number + this.$refs.b.number
+      }
+    }
+  })
+
+</script>
+</body>
+</html>

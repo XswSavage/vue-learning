@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>给子组件绑定原生事件</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+<!--    此时如果只是单纯的通过@click是无法触发父组件中的事件的,需要在自组件中通过emit传递
+  不过可以通过@click.native的方式激活
+-->
+    <Item @click.native="handle"></Item>
+
+</div>
+  <script>
+    let Item = {
+      template:"<div>hello</div>"
+    };
+    let vm = new Vue({
+      el:"#ctx",
+      components: {
+        Item:Item
+      },
+      methods:{
+        handle:function () {
+          alert("active!");
+        }
+      }
+    });
+  </script>
+</body>
+</html>

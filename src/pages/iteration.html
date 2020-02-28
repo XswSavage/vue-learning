@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>迭代渲染</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <!-- 现在我希望改变其中一个元素,但是页面没有重新渲染
+    list[0] = "你";
+    因为list是个对象,我们只是改变了它的内部属性,当前对象本身是不会有变化的,若需要改变可以
+    通过如下方式
+    list.splice(0,1, "你")
+    或者改变对象的引用地址
+    再或者可以通过Vue.set(vm.list,0,"你")的方式赋值
+  -->
+  <span v-for="item in form">
+          {{item}}
+      </span>
+  <br/>
+  <br/>
+<!--  添加一个属性看看页面是否渲染,Vue.set(vm.userInfo,"address", "上海浦东")-->
+  <template v-for="(user, key ,idx) of userInfo">
+    {{user}} ---- {{key}} ---- {{idx}}
+    <br/>
+  </template>
+  <br/>
+  <br/>
+
+  <template v-for="(user,idx) of userList">
+    {{user}} ---- {{idx}}
+    <br/>
+  </template>
+</div>
+<script>
+  let vm = new Vue({
+    el: '#ctx',
+    data: {
+      list: ['我', '爱', '中', '国', ',', '欢', '迎', '你', '来', '到', '中', '国', '!'],
+      userInfo: {
+        id: '1000004',
+        name: 'LiSa',
+        age: 19
+      },
+      userList: [
+        {
+          id: '1000001',
+          name: '张三',
+          age: 50
+        },
+        {
+          id: '1000002',
+          name: '李四',
+          age: 43
+        },
+        {
+          id: '1000003',
+          name: '王五',
+          age: 23
+        }
+      ]
+    }
+
+  })
+
+</script>
+</body>
+</html>

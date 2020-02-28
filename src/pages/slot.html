@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue中的插槽(通过插槽的方式向子组件中插入DOM结构)</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <Item>
+    <div slot="header">Header</div>
+    <label slot="context">Vue!</label>
+    <div slot="footer">Footer</div>
+  </Item>
+</div>
+<script>
+  Vue.component('Item',{
+    template:"<div>" +
+      "<slot name='header'></slot>" +
+      "<label>Hello &nbsp;</label>" +
+      "<slot name='context'></slot>" +
+      "<slot name='footer'></slot>" +
+      "</div>"
+  });
+  let vm = new Vue({
+    el: '#ctx'
+  })
+</script>
+</body>
+</html>

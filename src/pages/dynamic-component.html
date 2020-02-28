@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件使用</title>
+  <script src="../../static/vue.js"></script>
+</head>
+<body>
+<div id="ctx">
+  <component :is="component"></component>
+  <button @click="handle">OK</button>
+</div>
+<script>
+  Vue.component('item-one',{
+    //可以加个v-once属性,这样不会每次都要创建和销毁组件,会放入到内存中
+    template:
+      `
+        <div v-once>
+          this is item 01
+        </div>`
+  });
+  Vue.component('item-two',{
+    template:
+      `
+        <div v-once>
+          this is item 02
+        </div>`
+  });
+  let vm = new Vue({
+    el: '#ctx',
+    data:{
+      component:'item-one'
+    },methods:{
+      handle:function () {
+        this.component = this.component == 'item-one'? 'item-two' : 'item-one';
+      }
+    }
+  })
+</script>
+</body>
+</html>

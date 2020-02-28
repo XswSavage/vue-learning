@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样式绑定</title>
+  <script src="../../static/vue.js"></script>
+  <style>
+    .colorActive{
+      color: crimson;
+      font-family: "Microsoft YaHei UI";
+    }
+  </style>
+</head>
+<body>
+   <!-- 通过active字段来控制样式的显示与取消显示,当点击当前div的时候会触发事件
+   {colorActive: active}
+   or
+   :class="[colorActive]"
+   -->
+<!--  <div id="ctx" @click="divClick" :class="[colorActive]">-->
+<!--      <H2>  Hello Vue</H2>-->
+<!--  </div>-->
+   <!-- 同理可以来看style的处理方式-->
+   <div id="ctx" @click="styleDivClick" :style="[styleActive]">
+     <H2>  Hello Vue</H2>
+   </div>
+  <script>
+    let vm = new Vue({
+      el:"#ctx",
+      data:{
+        active:false,
+        colorActive:'',
+        styleActive:{
+          color: "black",
+          fontFamily: "宋体"
+    }
+      },
+      methods:{
+        // 做到让当前属性取反
+        divClick:function () {
+          // this.active = !this.active; // 方法一
+          this.colorActive = !this.colorActive ? "colorActive"  : "" ; // 方法二
+        },
+        // style 的处理
+        styleDivClick:function () {
+          this.styleActive.color = this.styleActive.color =="black" ? "crimson" :"black";
+          this.styleActive.fontFamily = this.styleActive.fontFamily == "宋体" ? "Microsoft YaHei UI" : "宋体";
+
+        }
+      }
+
+    });
+
+  </script>
+</body>
+</html>
