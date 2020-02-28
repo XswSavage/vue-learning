@@ -1,6 +1,9 @@
+
+
 # vue-demo
 
-> A Vue.js project
+> A Vue.js project, 
+###### 通过十几个小页面例子学习对于vue的使用,从最基础的`hello world`开始到对于动画的使用, 包含animation及velocity的简单使用
 
 ## Build Setup
 
